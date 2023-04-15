@@ -1,4 +1,6 @@
 #[macro_use] extern crate rocket;
+use rocket::serde::json::{json,Value};
+
 mod dad_bot;
 
 
@@ -8,8 +10,9 @@ fn index() -> String {
 }
 
 #[get("/dad_bot?<message>&<name>")]
-fn dad_bot_api(message: &str, name:&str) -> String {
-	return dad_bot::dad_bot(message,name);
+fn dad_bot_api(message: &str, name:&str) -> Value {
+	let result = dad_bot::dad_bot(message,name);
+	json!({"response":result})
 }
 
 #[launch]
